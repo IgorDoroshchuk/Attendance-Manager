@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Attendance_Tracker.Models.Course>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.CourseId" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.CourseId" class="btn btn-danger">Delete</a>
+                    </td>
+                }               
+            </tr>
+        }
+    </tbody>
+</table>

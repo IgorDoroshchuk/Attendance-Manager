@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Attendance_Tracker.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patronomic)
+            </th>
+            @* <th>
+            @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.StudyingCourse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specialty)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patronomic)
+                </td>
+                @*            <td>
+            @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudyingCourse)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialty)
+                </td>
+@*                <td>
+                    @item.Faculty.Name
+                </td>*@
+                @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.StudentId" class="btn btn-primary">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.StudentId" class="btn btn-info">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.StudentId" class="btn btn-danger">Delete</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
