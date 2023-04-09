@@ -22,9 +22,9 @@ namespace Attendance_Manager.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Attendances.Include(a => a.Enrollment)
-                .ThenInclude(b=>b.Student)
-                .Include(c=>c.Enrollment.Course)
-                .OrderByDescending(d=>d.AttendanceDate);
+                .ThenInclude(b => b.Student)
+                .Include(c => c.Enrollment.Course)
+                .OrderByDescending(d => d.AttendanceDate);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -48,7 +48,11 @@ namespace Attendance_Manager.Controllers
 
         public IActionResult Create()
         {
-            ViewData["EnrollmentID"] = new SelectList(_context.Enrollments, "EnrollmentId", "ShortDescription");
+            ViewData["EnrollmentID"] = new SelectList(_context.Enrollments.Select(e => new
+        {
+            EnrollmentId = e.EnrollmentId,
+            ShortDescription = $"{e.Student.FullName} - {e.Course.Name}"
+        }), "EnrollmentId", "ShortDescription");
             return View();
         }
 
@@ -73,7 +77,11 @@ namespace Attendance_Manager.Controllers
             {
                 return NotFound();
             }
-            ViewData["EnrollmentID"] = new SelectList(_context.Enrollments, "EnrollmentId", "EnrollmentId", attendance.EnrollmentID);
+            ViewData["EnrollmentID"] = new SelectList(_context.Enrollments.Select(e => new
+            {
+                EnrollmentId = e.EnrollmentId,
+                ShortDescription = $"{e.Student.FullName} - {e.Course.Name}"
+            }), "EnrollmentId", "ShortDescription");
             return View(attendance);
         }
 

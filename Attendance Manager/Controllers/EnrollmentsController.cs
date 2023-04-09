@@ -54,7 +54,7 @@ namespace Attendance_Manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EnrollmentId,CourseId,StudentId,Credit,ShortDescription")] Enrollment enrollment)
+        public async Task<IActionResult> Create([Bind("EnrollmentId,CourseId,StudentId,Credit")] Enrollment enrollment)
         {
                 _context.Add(enrollment);
                 await _context.SaveChangesAsync();
@@ -74,8 +74,8 @@ namespace Attendance_Manager.Controllers
             {
                 return NotFound();
             }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId", enrollment.StudentId);
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name", enrollment.CourseId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "Name", enrollment.StudentId);
             return View(enrollment);
         }
 
@@ -88,8 +88,6 @@ namespace Attendance_Manager.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(enrollment);
@@ -107,10 +105,7 @@ namespace Attendance_Manager.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId", enrollment.CourseId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "StudentId", "StudentId", enrollment.StudentId);
-            return View(enrollment);
+
         }
 
         [Authorize(Roles = "Admin,Teacher")]

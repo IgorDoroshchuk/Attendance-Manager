@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Attendance_Manager.Data;
 using Attendance_Tracker.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Attendance_Manager.Controllers
 {
@@ -60,16 +61,18 @@ namespace Attendance_Manager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StudentId,FacultyId,Name,Surname,Patronomic,Email,PhoneNumber,StudyingCourse,GroupNumber,Specialty")] Student student)
+        public async Task<IActionResult> Create(Student student)
         {
-            _context.Add(student);
+            _context.Students.Add(student);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
+
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Students == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -79,10 +82,64 @@ namespace Attendance_Manager.Controllers
             {
                 return NotFound();
             }
-            ViewData["FacultyId"] = new SelectList(_context.Faculties, "FacultyId", "FacultyId", student.FacultyId);
+
+            ViewBag.FacultyId = new SelectList(_context.Faculties, "FacultyId", "Name", student.FacultyId);
+
             return View(student);
         }
 
+
+        // POST: Students/Edit
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id,
+        //    [Bind("StudentId,FacultyId,Name,Surname,Patronomic,Email,PhoneNumber,StudyingCourse,GroupNumber,Specialty,Photo")]
+        //Student student,
+        //    IFormFile photo)
+        //{
+        //    if (id != student.StudentId)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    try
+        //    {
+        //        if (photo != null && photo.Length > 0)
+        //        {
+        //            using (var ms = new MemoryStream())
+        //            {
+        //                photo.CopyTo(ms);
+        //                student.Photo = ms.ToArray();
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var existingStudent = await _context.Students.FindAsync(id);
+        //            student.Photo = existingStudent.Photo;
+        //        }
+
+        //        _context.Update(student);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!StudentExists(student.StudentId))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+
+
+
+
+        // POST: Students/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("StudentId,FacultyId,Name,Surname,Patronomic,Email,PhoneNumber,StudyingCourse,GroupNumber,Specialty")] Student student)
@@ -109,8 +166,8 @@ namespace Attendance_Manager.Controllers
                 }
             }
             return RedirectToAction(nameof(Index));
-
         }
+
 
 
         public async Task<IActionResult> Delete(int? id)

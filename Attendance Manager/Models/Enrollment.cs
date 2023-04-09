@@ -11,8 +11,6 @@ namespace Attendance_Tracker.Models
 
         [Range(1,360)]
         public int Credit { get; set; }
-        public string ShortDescription { get; set; }
-
         public virtual Course Course { get; set; }
         public virtual Student Student { get; set; }
 

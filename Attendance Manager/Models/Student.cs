@@ -21,8 +21,6 @@ namespace Attendance_Tracker.Models
         public int StudyingCourse { get; set; }
         public int GroupNumber { get; set; }
         public string Specialty { get; set; }
-        //public byte[] ImageData { get; set; }
-        //public string ImageMimeType { get; set; }
         public Faculty Faculty { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; }

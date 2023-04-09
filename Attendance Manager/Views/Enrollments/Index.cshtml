@@ -18,15 +18,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Credit)
             </th>
-            <th>
+@*            <th>
                 @Html.DisplayNameFor(model => model.ShortDescription)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Course.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Student.FullName)
-            </th>
+            </th> 
             <th></th>
         </tr>
     </thead>
@@ -37,15 +37,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Credit)
                 </td>
-                <td>
+@*                <td>
                     @Html.DisplayFor(modelItem => item.ShortDescription)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Course.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Student.FullName)
-                </td>
+                </td>   
                 @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))              
                 {
                     <td>

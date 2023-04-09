@@ -9,6 +9,7 @@ namespace Attendance_Manager.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Course> Courses { get; set; }

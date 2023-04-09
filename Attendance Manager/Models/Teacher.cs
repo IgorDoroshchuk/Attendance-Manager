@@ -19,6 +19,8 @@ namespace Attendance_Tracker.Models
         public string Degree { get; set; }
         public string ClassLocation { get; set; }
 
+
+
         public Faculty Faculty { get; set; }
     }
 }
